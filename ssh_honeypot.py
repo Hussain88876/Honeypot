@@ -21,10 +21,12 @@ creds_logger.addHandler(creds_handler)
 
 # Emulated shell
 def emulated_shell(channel, client_ip):
-    channel.send(b'corporate-jumpbox2$')
+    channel.send(b'corporate-jumpbox2$') #$ means standard user permissions
     command = b""
-    while True:
-        char = channel.recv(1)
+    while True: #creating a simulated terminal environment
+
+        char = channel.recv(1) #listing to user
+        channel.send(char)
         if not char:
             channel.close()
 
