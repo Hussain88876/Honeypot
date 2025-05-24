@@ -5,6 +5,14 @@ import paramiko
 import socket
 # Constants
 logging_format = logging.Formatter('%(message)s')
+SSH_BANNER = "SSH-2.0-MySSHServer_1.0"
+
+
+host_key = paramiko.RSAKey.generate(2048)
+host_key.write_private_key_file('host.key')
+
+host_key = paramiko.RSAKey(filename='host.key')
+
 
 # Loggers and logging files
 funnel_logger = logging.getLogger('FunnelLogger')
@@ -69,7 +77,7 @@ class Server(paramiko.ServerInterface):
         if kind == 'session':
             return paramiko.OPEN_SUCCEEDED
 
-    def get_allowed_channels(self):
+    def get_allowed_auth(self):
         return "password"
 
     def check_auth_password(self, username, password):
@@ -91,4 +99,23 @@ class Server(paramiko.ServerInterface):
     def check_channel_exec_request(self, channel, command):
         command = str(command)
         return True
+
+    def client_handle(client, addr, username, password):
+        client_ip = addr[0]
+        print(f"{client_ip} has connected to teh server")
+        try:
+
+            transport = paramiko.Transport()
+            transport.local_version = SSH_BANNER
+            server = Server(client_ip = client_ip, input_username= username, input_password= password)
+
+            transport.add_server_key(host_key)
+            transport.start_server(server=server)
+
+        except:
+            pass
+        finally:
+            pass
+
+
 #Provision SSH based honeypot
