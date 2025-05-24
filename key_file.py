@@ -1,1 +1,0 @@
-host_key = 'server.key'

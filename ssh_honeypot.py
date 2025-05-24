@@ -2,7 +2,7 @@
 import logging
 from logging.handlers import RotatingFileHandler
 import paramiko
-from key_file import host_key
+from key_files import host_key
 import socket
 # Constants
 logging_format = logging.Formatter('%(message)s')
