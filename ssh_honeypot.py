@@ -2,16 +2,12 @@
 import logging
 from logging.handlers import RotatingFileHandler
 import paramiko
+from key_file import host_key
 import socket
 # Constants
 logging_format = logging.Formatter('%(message)s')
 SSH_BANNER = "SSH-2.0-MySSHServer_1.0"
 
-
-host_key = paramiko.RSAKey.generate(2048)
-host_key.write_private_key_file('host.key')
-
-host_key = paramiko.RSAKey(filename='host.key')
 
 
 # Loggers and logging files
