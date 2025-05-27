@@ -77,6 +77,7 @@ class Server(paramiko.ServerInterface):
 
     def check_auth_password(self, username, password):
         creds_logger.info(f"{self.client_ip}: Username='{username}' Password='{password}'")
+        funnel_logger.info(f"Client {self.client_ip} attempted to connect with,  Username='{username}' Password='{password}'")
         if self.input_username is not None and self.input_password is not None:
             if username == self.input_username and password == self.input_password:
                 return paramiko.AUTH_SUCCESSFUL
@@ -142,4 +143,4 @@ def honeypot(address, port, username, password):
             print(f"Accept error: {error}")
 
 # Run honeypot
-honeypot('127.0.0.1', 2223, 'username', 'password')
+honeypot('127.0.0.1', 2223, username= None, password= None)
