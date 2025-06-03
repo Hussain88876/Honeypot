@@ -1,5 +1,6 @@
 import argparse
 from ssh_honeypot import *
+from web_honeypot import *
 import paramiko
 
 if __name__ == '__main__':
@@ -18,9 +19,20 @@ if __name__ == '__main__':
         if args.ssh:
             print("[-] Running SSH Honeypot....")
             honeypot(args.address, args.port, args.username, args.password)
+            if not args.username:
+                username = None
+            if not args.password:
+                password = None
         elif args.http:
             print("[-] Running HTTP Honeypot....")
-            pass
+
+            if not args.username:
+                args.username = "admin"
+            if not args.password:
+                args.password = "password"
+
+            print(f"Port: {args.port} Username: {args.username} Password: {args.password}")
+            run_web_honeypot(args.port, args.username, args.password)
         else:
             print("[!] Choose either --ssh or --http")
     except Exception as e:
