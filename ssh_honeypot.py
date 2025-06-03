@@ -143,4 +143,5 @@ def honeypot(address, port, username, password):
             print(f"Accept error: {error}")
 
 # Run honeypot
-honeypot('127.0.0.1', 2223, username= None, password= None)
+if __name__ == '__main__':
+    honeypot('127.0.0.1', 2223, username= None, password= None)
